@@ -3,6 +3,7 @@ import 'package:chat_scholar/models/message_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+import '../widgets/build_popup_menu.dart';
 import '../widgets/chat_buble.dart';
 
 class ChatPage extends StatelessWidget {
@@ -42,6 +43,9 @@ class ChatPage extends StatelessWidget {
                   ),
                 ],
               ),
+              actions: [
+                buildPopupMenu(context),
+              ],
             ),
             body: Column(
               children: [
