@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
+import '../helper/show_snack_bar.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/custom_text_field.dart';
 
@@ -168,14 +169,6 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  void showSnackBar(BuildContext context, String message, {Color color = Colors.grey}) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Center(child: Text(message)),
-        backgroundColor: color,
-      ),
-    );
-  }
 
   Future<void> loginUser() async {
 

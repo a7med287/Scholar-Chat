@@ -30,18 +30,21 @@ class ChatPage extends StatelessWidget {
             appBar: AppBar(
               automaticallyImplyLeading: false,
               backgroundColor: kPrimaryColor,
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset(kPathLogo, height: 50),
-                  Text(
-                    "Chat",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: "Pacifico",
+              title: Padding(
+                padding: const EdgeInsets.only(left: 24.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(kPathLogo, height: 50),
+                    Text(
+                      "Chat",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: "Pacifico",
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
               actions: [
                 buildPopupMenu(context),
