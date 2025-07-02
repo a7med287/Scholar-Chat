@@ -7,7 +7,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-
 import '../helper/show_snack_bar.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/custom_text_field.dart';
@@ -32,7 +31,7 @@ class LoginPage extends StatelessWidget {
           Navigator.pushNamed(context, ChatPage.id);
           isLoading = false;
         } else if (state is LoginFailure) {
-          showSnackBar(context, "somthin gis wrong ", color: Colors.red);
+          showSnackBar(context, state.errorMessage, color: Colors.red);
         }
       },
       child: ModalProgressHUD(
@@ -92,62 +91,9 @@ class LoginPage extends StatelessWidget {
                     text: 'Login',
                     onTap: () async {
                       if (formKey.currentState?.validate() ?? false) {
-                        try {
-                          await loginUser();
-                          Navigator.pushNamed(
-                            context,
-                            ChatPage.id,
-                            arguments: email,
-                          );
-                          _emailController.clear();
-                          _passController.clear();
-                        } on FirebaseAuthException catch (e) {
-                          String errorMessage;
-                          if (e.code == 'user-not-found') {
-                            errorMessage = "No user found for that email.";
-                            debugPrint(errorMessage);
-                          } else if (e.code == 'wrong-password') {
-                            errorMessage =
-                                "Wrong password provided for that user.";
-                            debugPrint(errorMessage);
-                          } else {
-                            errorMessage = "Password or Email is Not correct";
-                            debugPrint(
-                              'FirebaseAuthException: ${e.code} - ${e.message}',
-                            ); // Log the full error for debugging
-                          }
-                          showSnackBar(
-                            context,
-                            errorMessage,
-                            color: Colors.red,
-                          );
-                        } catch (e) {
-                          String errorMessage;
-                          if (e.toString().contains('RecaptchaAction')) {
-                            errorMessage =
-                                "Security verification failed. Please try again.";
-                            debugPrint(
-                              'Recaptcha verification failed: ${e.toString()}',
-                            );
-                            showSnackBar(
-                              context,
-                              errorMessage,
-                              color: Colors.orange,
-                            );
-                          } else {
-                            // Handle other generic errors
-                            errorMessage =
-                                "An unexpected error occurred. Please try again.";
-                            debugPrint(
-                              'An unexpected error occurred: ${e.toString()}',
-                            );
-                            showSnackBar(
-                              context,
-                              errorMessage,
-                              color: Colors.red,
-                            );
-                          }
-                        } finally {}
+                        BlocProvider.of<LoginCubit>(
+                          context,
+                        ).loginUser(email: email!, password: password!);
                       }
                     },
                   ),
