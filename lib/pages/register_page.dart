@@ -21,7 +21,6 @@ class _RegisterPageState extends State<RegisterPage> {
   GlobalKey<FormState> formKey = GlobalKey();
   bool isLoading = false;
 
-  // Email validation function (only checks format)
   String? validateEmail(String? value) {
     final RegExp emailRegex = RegExp(
       r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',

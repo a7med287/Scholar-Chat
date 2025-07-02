@@ -13,7 +13,7 @@ Widget buildPopupMenu(BuildContext context) {
           children: [
             Icon(Icons.logout, color: kPrimaryColor), // Added icon for visual appeal
             SizedBox(width: 8),
-            Text('تسجيل خروج',style: TextStyle(color: kPrimaryColor),),
+            Text('Logout',style: TextStyle(color: kPrimaryColor),),
           ],
         ),
       ),
@@ -47,16 +47,16 @@ void _showLogoutConfirmationDialog(BuildContext context) {
             backgroundColor: Colors.white,
             elevation: 10,
             title: const Text(
-              'تأكيد تسجيل الخروج',
+              'Confirm logout',
               style: TextStyle(
-                color: Color(0xFF26435F),
+                color: kPrimaryColor,
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
               ),
               textAlign: TextAlign.center,
             ),
             content: const Text(
-              'هل أنت متأكد أنك تريد تسجيل الخروج؟',
+              'Are you sure you want to log out?',
               style: TextStyle(
                 color: Colors.black87,
                 fontSize: 16,
@@ -65,20 +65,6 @@ void _showLogoutConfirmationDialog(BuildContext context) {
             ),
             actionsAlignment: MainAxisAlignment.center,
             actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop(); // Close the dialog
-                },
-                child: const Text(
-                  'إلغاء',
-                  style: TextStyle(
-                    color: Colors.grey,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ),
-              const SizedBox(width: 20),
               ElevatedButton(
                 onPressed: () {
                   Navigator.of(context).pop(); // Close the dialog
@@ -87,7 +73,7 @@ void _showLogoutConfirmationDialog(BuildContext context) {
                     context,
                     PageRouteBuilder(
                       pageBuilder: (context, animation, secondaryAnimation) =>
-                       LoginPage(),
+                          LoginPage(),
                       transitionsBuilder:
                           (context, animation, secondaryAnimation, child) {
                         return FadeTransition(
@@ -100,7 +86,7 @@ void _showLogoutConfirmationDialog(BuildContext context) {
                   );
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF26435F), // Primary color
+                  backgroundColor: kPrimaryColor, // Primary color
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -108,7 +94,7 @@ void _showLogoutConfirmationDialog(BuildContext context) {
                   const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 ),
                 child: const Text(
-                  'موافق',
+                  'Yes',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 16,
@@ -116,6 +102,21 @@ void _showLogoutConfirmationDialog(BuildContext context) {
                   ),
                 ),
               ),
+              const SizedBox(width: 20),
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(); // Close the dialog
+                },
+                child: const Text(
+                  'Cancel',
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+
             ],
           ),
         ),

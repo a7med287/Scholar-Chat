@@ -10,7 +10,7 @@ import '../widgets/custom_button.dart';
 import '../widgets/custom_text_field.dart';
 
 class LoginPage extends StatefulWidget {
-  LoginPage({super.key});
+   LoginPage({super.key});
   static String id = "LoginPage";
 
   @override
