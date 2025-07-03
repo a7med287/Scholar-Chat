@@ -1,5 +1,7 @@
 import 'package:chat_scholar/constants.dart';
 import 'package:chat_scholar/cubits/login_cubit/login_cubit.dart';
+import 'package:chat_scholar/cubits/register_cubit/register_cubit.dart';
+import 'package:chat_scholar/cubits/register_cubit/register_states.dart';
 import 'package:chat_scholar/pages/chat_page.dart';
 import 'package:chat_scholar/pages/login_page.dart';
 import 'package:chat_scholar/pages/register_page.dart';
@@ -20,10 +22,11 @@ class ScholarChatApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (BuildContext context) {
-        return LoginCubit();
-      },
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => LoginCubit()),
+        BlocProvider(create: (context) => RegisterCubit()),
+      ],
       child: MaterialApp(
         theme: ThemeData(
           textSelectionTheme: TextSelectionThemeData(
