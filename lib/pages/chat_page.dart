@@ -5,7 +5,6 @@ import 'package:chat_scholar/models/message_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../widgets/build_popup_menu.dart';
 import '../widgets/chat_buble.dart';
 
@@ -14,13 +13,10 @@ class ChatPage extends StatelessWidget {
   final _controller = ScrollController();
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   TextEditingController controller = TextEditingController();
- List<MessageModel> messagesList =[];
+  String? msg;
   @override
   Widget build(BuildContext context) {
-    var email = ModalRoute
-        .of(context)!
-        .settings
-        .arguments;
+    var email = ModalRoute.of(context)!.settings.arguments;
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -33,28 +29,20 @@ class ChatPage extends StatelessWidget {
               Image.asset(kPathLogo, height: 50),
               Text(
                 "Chat",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontFamily: "Pacifico",
-                ),
+                style: TextStyle(color: Colors.white, fontFamily: "Pacifico"),
               ),
             ],
           ),
         ),
-        actions: [
-          buildPopupMenu(context),
-        ],
+        actions: [buildPopupMenu(context)],
       ),
       body: Column(
         children: [
           Expanded(
-            child: BlocConsumer<ChatCubit,ChatStates>(
-              listener: (BuildContext context, Object? state) {
-               if(state is ChatSuccess){
-                 messagesList = state.messagesList;
-               }
-              },
+            child: BlocBuilder<ChatCubit, ChatStates>(
+
               builder: (BuildContext context, state) {
+                var messagesList = BlocProvider.of<ChatCubit>(context).messagesList;
                 return ListView.builder(
                   reverse: true,
                   controller: _controller,
@@ -63,29 +51,28 @@ class ChatPage extends StatelessWidget {
                     return messagesList[index].id == email
                         ? ChatBuble(message: messagesList[index])
                         : ChatBubleForFriend(
-                      message: messagesList[index],
-                      userName: messagesList[index].id.substring(
-                        0,
-                        messagesList[index].id.indexOf("@"),
-                      ),
-                    );
+                          message: messagesList[index],
+                          userName:
+                              messagesList[index].id.contains("@")
+                                  ? messagesList[index].id.substring(
+                                    0,
+                                    messagesList[index].id.indexOf("@"),
+                                  )
+                                  : messagesList[index]
+                                      .id, // fallback value if '@' not found
+                        );
                   },
                 );
               },
-
-
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 16.0,
-              vertical: 8,
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
             child: TextField(
               controller: controller,
 
               onChanged: (data) {
-
+                msg = data;
               },
 
               cursorColor: kPrimaryColor,
@@ -95,6 +82,10 @@ class ChatPage extends StatelessWidget {
                 suffixIcon: IconButton(
                   color: kPrimaryColor,
                   onPressed: () {
+                    BlocProvider.of<ChatCubit>(context).sendMessage(
+                      sendMessage: msg ?? "",
+                      email: email.toString(),
+                    );
 
                     controller.clear();
                     _controller.animateTo(
