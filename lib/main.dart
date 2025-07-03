@@ -1,4 +1,5 @@
 import 'package:chat_scholar/constants.dart';
+import 'package:chat_scholar/cubits/chat_cubit/chat_cubit.dart';
 import 'package:chat_scholar/cubits/login_cubit/login_cubit.dart';
 import 'package:chat_scholar/cubits/register_cubit/register_cubit.dart';
 import 'package:chat_scholar/cubits/register_cubit/register_states.dart';
@@ -26,6 +27,7 @@ class ScholarChatApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => LoginCubit()),
         BlocProvider(create: (context) => RegisterCubit()),
+        BlocProvider(create: (context) => ChatCubit()),
       ],
       child: MaterialApp(
         theme: ThemeData(
